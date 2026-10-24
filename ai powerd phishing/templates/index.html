@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PhishShield AI — Phishing & Social Engineering Detector</title>
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="cyber-theme">
+
+    <!-- Top Navigation Bar -->
+    <header class="cyber-header">
+        <div class="header-container">
+            <div class="brand">
+                <div class="brand-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        <circle cx="12" cy="11" r="3"/>
+                        <path d="M12 8v-2"/>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="brand-title">PhishShield <span class="highlight">AI</span></h1>
+                    <p class="brand-subtitle">AI-Powered Phishing & Social Engineering Intelligence</p>
+                </div>
+            </div>
+
+            <div class="header-badges">
+                <span class="cyber-badge engine-badge">
+                    <span class="pulse-dot"></span> Scikit-Learn · TF-IDF · NLP · Heuristics
+                </span>
+                <button id="btnModelStats" class="btn-secondary" title="View ML Model Performance & Weights">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+                    Model Metrics
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-layout">
+        <!-- Preset Scenario Selector Bar -->
+        <section class="preset-section">
+            <div class="preset-label">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                <span>Quick Test Scenarios:</span>
+            </div>
+            <div class="preset-pills" id="presetPillsContainer">
+                <!-- Dynamically loaded via app.js -->
+                <span class="loading-pills">Loading attack scenarios...</span>
+            </div>
+        </section>
+
+        <!-- Input & Analysis Workspace -->
+        <div class="workspace-grid">
+            
+            <!-- Left Column: Input Workbench -->
+            <section class="cyber-card input-card">
+                <div class="card-header">
+                    <div class="card-title-group">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                        <h2 class="card-title">Threat Inspection Console</h2>
+                    </div>
+                    <!-- Mode Switcher Tabs -->
+                    <div class="tab-switcher">
+                        <button class="tab-btn active" data-tab="tab-email">Email Message</button>
+                        <button class="tab-btn" data-tab="tab-url">URL Deep Scan</button>
+                        <button class="tab-btn" data-tab="tab-headers">Raw Headers</button>
+                    </div>
+                </div>
+
+                <!-- Tab 1: Full Email -->
+                <div class="tab-content active" id="tab-email">
+                    <div class="form-row">
+                        <div class="form-group flex-1">
+                            <label for="fromHeader">From (Sender):</label>
+                            <input type="text" id="fromHeader" placeholder="e.g. IT Support &lt;helpdesk@company-update.xyz&gt;">
+                        </div>
+                        <div class="form-group flex-1">
+                            <label for="replyToHeader">Reply-To (Optional):</label>
+                            <input type="text" id="replyToHeader" placeholder="e.g. attacker-collector@free-mail.com">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subjectInput">Subject Line:</label>
+                        <input type="text" id="subjectInput" placeholder="e.g. URGENT: Your password expires in 2 hours">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="bodyInput">Message Body:</label>
+                        <textarea id="bodyInput" rows="9" placeholder="Paste the suspicious email, SMS, or Slack message body here... Include any links, urgency phrases, or requests for action."></textarea>
+                    </div>
+                </div>
+
+                <!-- Tab 2: Dedicated URL Scanner -->
+                <div class="tab-content" id="tab-url">
+                    <div class="form-group">
+                        <label for="singleUrlInput">Target URL or Domain to Inspect:</label>
+                        <input type="text" id="singleUrlInput" placeholder="e.g. http://paypal.com.account-update-center.xyz/login?ref=auth">
+                    </div>
+                    <div class="url-scan-info">
+                        <p class="hint-text">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                            Evaluates Shannon entropy (DGA), typosquatting, brand spoofing, lookalikes, TLD reputation, IP host patterns, and path heuristics.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Tab 3: Raw EML Headers -->
+                <div class="tab-content" id="tab-headers">
+                    <div class="form-group">
+                        <label for="rawHeadersInput">Raw RFC 822 Email Headers:</label>
+                        <textarea id="rawHeadersInput" rows="12" placeholder="Paste raw email headers here:&#10;From: PayPal &lt;service@security-update.xyz&gt;&#10;Reply-To: phish@attacker.com&#10;Authentication-Results: spf=fail ..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Action Controls -->
+                <div class="form-actions">
+                    <button id="btnAnalyze" class="btn-primary">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                        <span>Analyze Threat</span>
+                    </button>
+                    <button id="btnClear" class="btn-outline">Clear</button>
+                    <button id="btnExport" class="btn-outline" style="display:none;" title="Export Threat Intelligence Report">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        Export Report
+                    </button>
+                </div>
+            </section>
+
+            <!-- Right Column: Results & Intelligence Dashboard -->
+            <section class="cyber-card results-card" id="resultsCard">
+                
+                <!-- Initial Empty State -->
+                <div class="empty-state" id="emptyState">
+                    <div class="radar-scan-graphic">
+                        <div class="scanner-circle c1"></div>
+                        <div class="scanner-circle c2"></div>
+                        <div class="scanner-sweep"></div>
+                        <svg class="radar-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        </svg>
+                    </div>
+                    <h3>Ready for Threat Analysis</h3>
+                    <p>Enter an email message, paste headers, or select a quick-test scenario above to analyze phishing vectors and social engineering cues.</p>
+                </div>
+
+                <!-- Loading Spinner State -->
+                <div class="loading-state" id="loadingState" style="display: none;">
+                    <div class="cyber-spinner"></div>
+                    <p class="loading-text">Executing NLP & Deep Heuristics Analysis...</p>
+                    <span class="loading-sub">Extracting TF-IDF features · Analyzing URL entropy · Evaluating psychological coercion</span>
+                </div>
+
+                <!-- Populated Analysis Results -->
+                <div class="results-content" id="resultsContent" style="display: none;">
+                    
+                    <!-- Top Threat Banner -->
+                    <div class="threat-banner" id="threatBanner">
+                        <div class="gauge-box">
+                            <div class="threat-gauge">
+                                <svg class="gauge-svg" viewBox="0 0 120 120">
+                                    <circle class="gauge-bg" cx="60" cy="60" r="50"></circle>
+                                    <circle class="gauge-fill" id="gaugeFill" cx="60" cy="60" r="50"></circle>
+                                </svg>
+                                <div class="gauge-value-box">
+                                    <span class="gauge-number" id="riskScoreNumber">0</span>
+                                    <span class="gauge-unit">%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="verdict-info">
+                            <span class="verdict-pill" id="verdictPill">ANALYZING</span>
+                            <h2 class="verdict-heading" id="verdictHeading">Threat Level</h2>
+                            <p class="verdict-summary" id="verdictSummary">Detection breakdown and threat classification.</p>
+                        </div>
+                    </div>
+
+                    <!-- Multi-Factor Sub-Scores Grid -->
+                    <div class="score-breakdown-grid">
+                        <div class="subscore-card">
+                            <span class="subscore-title">ML NLP Classifier</span>
+                            <div class="meter-bar"><div class="meter-fill" id="meterNlp"></div></div>
+                            <span class="subscore-val" id="valNlp">0%</span>
+                        </div>
+                        <div class="subscore-card">
+                            <span class="subscore-title">URL / Domain Threat</span>
+                            <div class="meter-bar"><div class="meter-fill" id="meterUrl"></div></div>
+                            <span class="subscore-val" id="valUrl">0%</span>
+                        </div>
+                        <div class="subscore-card">
+                            <span class="subscore-title">Social Engineering</span>
+                            <div class="meter-bar"><div class="meter-fill" id="meterSe"></div></div>
+                            <span class="subscore-val" id="valSe">0%</span>
+                        </div>
+                        <div class="subscore-card">
+                            <span class="subscore-title">Sender & Headers</span>
+                            <div class="meter-bar"><div class="meter-fill" id="meterHeader"></div></div>
+                            <span class="subscore-val" id="valHeader">0%</span>
+                        </div>
+                    </div>
+
+                    <!-- Section Tabs for Detailed Findings -->
+                    <div class="details-tab-nav">
+                        <button class="detail-tab-btn active" data-detail="detail-interactive">Interactive Highlight</button>
+                        <button class="detail-tab-btn" data-detail="detail-warnings">Warning Signs (<span id="warningBadgeCount">0</span>)</button>
+                        <button class="detail-tab-btn" data-detail="detail-psychology">Psychological Triggers</button>
+                        <button class="detail-tab-btn" data-detail="detail-urls">Detected URLs (<span id="urlBadgeCount">0</span>)</button>
+                        <button class="detail-tab-btn" data-detail="detail-xai">Explainable AI (NLP)</button>
+                    </div>
+
+                    <!-- Detail Tab 1: Interactive In-Text Highlights -->
+                    <div class="detail-tab-panel active" id="detail-interactive">
+                        <div class="highlight-legend">
+                            <span class="legend-item"><span class="legend-dot dot-urgency"></span> Urgency</span>
+                            <span class="legend-item"><span class="legend-dot dot-fear"></span> Fear & Threat</span>
+                            <span class="legend-item"><span class="legend-dot dot-action"></span> Action Forcing</span>
+                            <span class="legend-item"><span class="legend-dot dot-authority"></span> Authority</span>
+                            <span class="legend-item"><span class="legend-dot dot-greed"></span> Greed/Incentive</span>
+                            <span class="legend-item"><span class="legend-dot dot-url"></span> Suspicious URL</span>
+                        </div>
+                        <div class="highlighted-display" id="highlightedDisplayText">
+                            <!-- Populated with annotated HTML -->
+                        </div>
+                    </div>
+
+                    <!-- Detail Tab 2: Warning Signs & Red Flags -->
+                    <div class="detail-tab-panel" id="detail-warnings">
+                        <div class="warnings-list" id="warningsList">
+                            <!-- Populated with warning cards -->
+                        </div>
+                    </div>
+
+                    <!-- Detail Tab 3: Psychological Trigger Breakdown -->
+                    <div class="detail-tab-panel" id="detail-psychology">
+                        <div class="psych-grid" id="psychGrid">
+                            <!-- Populated with psychological tactics -->
+                        </div>
+                    </div>
+
+                    <!-- Detail Tab 4: Detected URLs & Domains -->
+                    <div class="detail-tab-panel" id="detail-urls">
+                        <div class="urls-container" id="urlsContainer">
+                            <!-- Populated with URL breakdown tables -->
+                        </div>
+                    </div>
+
+                    <!-- Detail Tab 5: Explainable AI Token Attributions -->
+                    <div class="detail-tab-panel" id="detail-xai">
+                        <div class="xai-header">
+                            <p>Feature contributions extracted from the TF-IDF vectorizer and Logistic Regression log-odds weights for this specific message:</p>
+                        </div>
+                        <div class="xai-table-wrapper">
+                            <table class="cyber-table">
+                                <thead>
+                                    <tr>
+                                        <th>Token / N-gram</th>
+                                        <th>Direction</th>
+                                        <th>TF-IDF Score</th>
+                                        <th>Model Weight</th>
+                                        <th>Prediction Impact</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="xaiTableBody">
+                                    <!-- Populated dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Defensive Recommendations Card -->
+                    <div class="recommendations-box">
+                        <div class="rec-header">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+                            <h4>Actionable Defense Recommendations</h4>
+                        </div>
+                        <ul class="rec-list" id="recommendationsList">
+                            <!-- Populated with recommendations -->
+                        </ul>
+                    </div>
+
+                </div>
+
+            </section>
+        </div>
+    </main>
+
+    <!-- Model Stats Modal -->
+    <div class="modal-overlay" id="modalStats" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title-group">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+                    <h3>Machine Learning Architecture & Evaluation Metrics</h3>
+                </div>
+                <button class="modal-close" id="btnCloseModal">&times;</button>
+            </div>
+            <div class="modal-body" id="modalStatsBody">
+                <div class="cyber-spinner"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Bundle -->
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

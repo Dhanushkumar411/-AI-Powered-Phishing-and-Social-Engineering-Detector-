@@ -1,0 +1,261 @@
+{
+  "accuracy": 1.0,
+  "precision": 1.0,
+  "recall": 1.0,
+  "f1_score": 1.0,
+  "roc_auc": 0.9999999999999999,
+  "cv_f1_mean": 0.9985401459854014,
+  "cv_f1_std": 0.002919708029197077,
+  "confusion_matrix": {
+    "true_negative": 83,
+    "false_positive": 0,
+    "false_negative": 0,
+    "true_positive": 86
+  },
+  "vocabulary_size": 1500,
+  "total_samples": 841,
+  "top_phishing_features": [
+    {
+      "feature": "http",
+      "weight": 2.2374
+    },
+    {
+      "feature": "$",
+      "weight": 1.5577
+    },
+    {
+      "feature": "account",
+      "weight": 1.3227
+    },
+    {
+      "feature": "an",
+      "weight": 1.2563
+    },
+    {
+      "feature": "login",
+      "weight": 1.1965
+    },
+    {
+      "feature": "security",
+      "weight": 1.1765
+    },
+    {
+      "feature": "alert",
+      "weight": 1.1512
+    },
+    {
+      "feature": "of $",
+      "weight": 1.1502
+    },
+    {
+      "feature": "to",
+      "weight": 1.115
+    },
+    {
+      "feature": "update",
+      "weight": 1.0395
+    },
+    {
+      "feature": "auth",
+      "weight": 1.0249
+    },
+    {
+      "feature": "immediately",
+      "weight": 1.0185
+    },
+    {
+      "feature": "payment",
+      "weight": 0.9576
+    },
+    {
+      "feature": "of",
+      "weight": 0.9128
+    },
+    {
+      "feature": "purchase",
+      "weight": 0.8477
+    },
+    {
+      "feature": "urgent",
+      "weight": 0.8442
+    },
+    {
+      "feature": "secure",
+      "weight": 0.8431
+    },
+    {
+      "feature": "due to",
+      "weight": 0.8146
+    },
+    {
+      "feature": "address",
+      "weight": 0.8074
+    },
+    {
+      "feature": "verify",
+      "weight": 0.8035
+    },
+    {
+      "feature": "click",
+      "weight": 0.7879
+    },
+    {
+      "feature": "not",
+      "weight": 0.7867
+    },
+    {
+      "feature": "this",
+      "weight": 0.7855
+    },
+    {
+      "feature": "hours",
+      "weight": 0.773
+    },
+    {
+      "feature": "at http",
+      "weight": 0.7724
+    },
+    {
+      "feature": "notice",
+      "weight": 0.7506
+    },
+    {
+      "feature": "refund",
+      "weight": 0.7338
+    },
+    {
+      "feature": "billing",
+      "weight": 0.7306
+    },
+    {
+      "feature": "info",
+      "weight": 0.7139
+    },
+    {
+      "feature": "service",
+      "weight": 0.7009
+    }
+  ],
+  "top_legitimate_features": [
+    {
+      "feature": "on",
+      "weight": -1.4944
+    },
+    {
+      "feature": "the",
+      "weight": -1.2431
+    },
+    {
+      "feature": "view",
+      "weight": -1.0649
+    },
+    {
+      "feature": "team",
+      "weight": -0.9818
+    },
+    {
+      "feature": "is",
+      "weight": -0.9024
+    },
+    {
+      "feature": "https",
+      "weight": -0.8991
+    },
+    {
+      "feature": "online",
+      "weight": -0.8723
+    },
+    {
+      "feature": "our",
+      "weight": -0.8683
+    },
+    {
+      "feature": "scheduled",
+      "weight": -0.8677
+    },
+    {
+      "feature": "statement",
+      "weight": -0.8651
+    },
+    {
+      "feature": "architecture",
+      "weight": -0.8562
+    },
+    {
+      "feature": "on our",
+      "weight": -0.8076
+    },
+    {
+      "feature": "friday",
+      "weight": -0.7803
+    },
+    {
+      "feature": "is scheduled",
+      "weight": -0.7749
+    },
+    {
+      "feature": "python",
+      "weight": -0.7423
+    },
+    {
+      "feature": "s",
+      "weight": -0.7246
+    },
+    {
+      "feature": "in",
+      "weight": -0.7048
+    },
+    {
+      "feature": "13",
+      "weight": -0.7019
+    },
+    {
+      "feature": "monthly",
+      "weight": -0.6993
+    },
+    {
+      "feature": "scheduled for",
+      "weight": -0.6929
+    },
+    {
+      "feature": "hi",
+      "weight": -0.6858
+    },
+    {
+      "feature": "review",
+      "weight": -0.6858
+    },
+    {
+      "feature": "github",
+      "weight": -0.6851
+    },
+    {
+      "feature": "15",
+      "weight": -0.624
+    },
+    {
+      "feature": "www",
+      "weight": -0.6223
+    },
+    {
+      "feature": "https www",
+      "weight": -0.6223
+    },
+    {
+      "feature": "view your",
+      "weight": -0.617
+    },
+    {
+      "feature": "ending",
+      "weight": -0.617
+    },
+    {
+      "feature": "ending in",
+      "weight": -0.617
+    },
+    {
+      "feature": "just",
+      "weight": -0.6095
+    }
+  ]
+}
